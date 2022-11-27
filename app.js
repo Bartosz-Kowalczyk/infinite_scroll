@@ -1,7 +1,9 @@
 class InfiniteScroll {
 
-    constructor(container) {
+    constructor(container, loader) {
         this.container = container;
+        this.loader = loader;
+        this.loading = false;
         this.page = 1;
         this.init();
     }
@@ -10,10 +12,21 @@ class InfiniteScroll {
         window.onload = this.getData;
 
         window.addEventListener('scroll', () => {
-            if(window.scrollY + window.innerHeight >= document.body.offsetHeight) {
+            if (this.loading) return;
+            if (window.scrollY + window.innerHeight >= document.body.offsetHeight) {
+                this.setLoading(true);
                 this.getData();
             }
         });
+    }
+
+    setLoading(flag) {
+        if (flag) {
+            this.loader.classList.remove('hidden');
+        } else {
+            this.loader.classList.add('hidden');
+        }
+        this.loading = flag;
     }
 
     getData = async () => {
@@ -26,6 +39,7 @@ class InfiniteScroll {
             console.error(error);
         }
         this.page++;
+        this.setLoading(false);
     }
 
     displayPosts(posts) {
@@ -45,4 +59,4 @@ class InfiniteScroll {
 
 }
 
-const iScroll = new InfiniteScroll(document.querySelector('.container'));
+const iScroll = new InfiniteScroll(document.querySelector('.container'), document.querySelector('.loader-box'));

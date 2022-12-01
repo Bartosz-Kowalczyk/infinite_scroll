@@ -6,4 +6,5 @@ The data is downloaded from the server on an ongoing basis while scrolling the w
 
 ## Instalation 
 Just copy the code. No framework and/or libraries needed. 
+Remember to change an API URL. 
 
